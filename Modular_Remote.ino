@@ -256,3 +256,5 @@ void all() {
   digitalWrite(g, HIGH);
   digitalWrite(dp, HIGH);
 }
+
+/* Feel free too reach out @  https://twitter.com/___carlos___01 */
