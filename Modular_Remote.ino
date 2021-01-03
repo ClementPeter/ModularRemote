@@ -1,23 +1,27 @@
-//A remote controled 7 segment display
+//A Remote Controlled 7 Segment Display that displays exact button Presses on a Single Digit 7 segment Display
+
+/* Feel free too reach out @  https://twitter.com/___carlos___01 */
+
 #include <IRremote.h>
-int IRpin = 3;
-IRrecv IR(IRpin);   //IR object and pin
-decode_results cmd; //Result of infared code get stored here
-String myCom; //COMMAND FOR STORING THE VARIALBLES
+int IRpin = 3;               //Declare Variable for the Infrared Pin
+IRrecv IR(IRpin);       //Create an IR object and pin
+decode_results cmd;   //Result of infrared code get stored here
+String myCom;            //Command for Storing Variables
 
-//7 Segment
-int a = 4; //Definition of digital interface 7 connecting to "A" on the 7 segment digital tube
-int b = 5; // Definition of digital interface 6 connected B segment digital tube
-int c = 6; // Definition of digital interface 5 connected C segment digital tube
-int d = 7; // Definition of digital interface 10 connected D segment digital tube
-int e = 8; // Definition of digital interface 11 connected e segment digital tube
-int f = 9; // Definition of digital interface 8 connected f segment digital tube
-int g = 10; // Definition of digital interface 9 connected g segment digital tube
-int dp = 11; // Definition of digital interface 4 connected DP segment digital tube
+//7 Segment Pins
+int a = 4;       //Definition of digital interface 7 connecting to "A" on the 7 segment digital tube
+int b = 5;      // Definition of digital interface 6 connected B segment digital tube
+int c = 6;      // Definition of digital interface 5 connected C segment digital tube
+int d = 7;     // Definition of digital interface 10 connected D segment digital tube
+int e = 8;     // Definition of digital interface 11 connected e segment digital tube
+int f = 9;     // Definition of digital interface 8 connected f segment digital tube
+int g = 10;    // Definition of digital interface 9 connected g segment digital tube
+int dp = 11;  // Definition of digital interface 4 connected DP segment digital tube
 
-int wait = 3000;
+int wait = 3000; //Varaible for delay interval
 void setup() {
   // put your setup code here, to run once:
+  
   //Turn on Serial Monitor
   Serial.begin(9600);
   IR.enableIRIn();
@@ -27,6 +31,7 @@ void setup() {
   for (i = 4; i <= 11; i++) {
     pinMode(i, OUTPUT);
   }
+  
   //Signify you that the DISPLAY is Active
   all();
 
@@ -35,15 +40,16 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  while (IR.decode(&cmd) == 0) { }
+  while (IR.decode(&cmd) == 0) { }  //AWhile loop that continues looping if the Remote Controller is not Pressed
 
-  //PRINT THE HEX VALUE OF THE BUTTONS
+  //PRINT THE HEXADECIMAL VALUE OF THE BUTTONS
   Serial.print(cmd.value, HEX);
   Serial.print("--");
   delay(100);
   IR.resume();
 
-  //KEYS ON THE REMOTE CONTROLLER
+  //BUTTONS ON THE REMOTE CONTROLLER...
+  //Map each Individual Button to the Corresponding HEX Value
   if (cmd.value == 0xFF6897) {
     myCom = "ZERO";
     Serial.println(myCom);
@@ -57,43 +63,37 @@ void loop() {
     myCom = "200+";
     Serial.println(myCom);
   }
-
+  
   if (cmd.value == 0XFF30CF) {
     myCom = "ONE";
     Serial.println(myCom);
     digital_1();
   }
-
   if (cmd.value == 0xFF18E7) {
     myCom = "TWO";
     Serial.println(myCom);
     digital_2();
   }
-
   if (cmd.value == 0XFF7A85) {
     myCom = "THREE";
     Serial.println(myCom);
     digital_3();
   }
-
   if (cmd.value == 0XFF10EF) {
     myCom = "FOUR";
     Serial.println(myCom);
     digital_4();
-
   }
   if (cmd.value == 0XFF38C7) {
     myCom = "FIVE";
     Serial.println(myCom);
     digital_5();
   }
-
   if (cmd.value == 0XFF5AA5) {
     myCom = "SIX";
     Serial.println(myCom);
     digital_6();
   }
-
   if (cmd.value == 0XFF42BD) {
     myCom = "SEVEN";
     Serial.println(myCom);
